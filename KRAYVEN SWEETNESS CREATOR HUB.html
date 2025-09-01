@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ultimate Food Content Creator Hub - Jamaican Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #009639 0%, #FFD320 50%, #000000 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            padding: 25px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Voice Status Bar */
+        .voice-status {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #009639, #FFD320);
+            color: #000000;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+        }
+
+        .voice-status.listening {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Daily Inspiration Section */
+        .inspiration-section {
+            background: linear-gradient(135deg, rgba(255, 211, 32, 0.9) 0%, rgba(0, 150, 57, 0.9) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 2px solid #000000;
+            text-align: center;
+        }
+
+        .inspiration-section h2 {
+            color: #000000;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .zodiac-selector {
+            margin-bottom: 15px;
+        }
+
+        .zodiac-selector select {
+            padding: 8px 15px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .daily-horoscope {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            color: #000000;
+            font-weight: 600;
+            font-style: italic;
+            border: 2px solid #000000;
+        }
+
+        .inspiration-quote {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            color: #000000;
+            font-weight: 600;
+            font-family: Georgia, serif;
+            border: 2px solid #000000;
+        }
+
+        .refresh-inspiration {
+            background: linear-gradient(135deg, #000000, #009639);
+            color: #FFD320;
+            border: 2px solid #FFD320;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        /* Quick Access Sections */
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border: 2px solid #009639;
+        }
+
+        .section h2 {
+            color: #000000;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-icon {
+            margin-right: 8px;
+            font-size: 1.3rem;
+            color: #009639;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+        }
+
+        .tool-btn {
+            background: linear-gradient(135deg, #000000 0%, #009639 100%);
+            color: #FFD320;
+            border: 2px solid #FFD320;
+            padding: 10px 6px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-height: 55px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-btn:hover {
+            background: linear-gradient(135deg, #FFD320 0%, #009639 100%);
+            color: #000000;
+            border-color: #000000;
+            transform: translateY(-2px);
+        }
+
+        .tool-btn .icon {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+
+        /* Special Platform Colors */
+        .instagram { background: linear-gradient(135deg, #E4405F, #C13584) !important; color: white !important; }
+        .tiktok { background: linear-gradient(135deg, #000000, #FF0050) !important; color: white !important; }
+        .facebook { background: linear-gradient(135deg, #1877F2, #42A5F5) !important; color: white !important; }
+        .spotify { background: linear-gradient(135deg, #1DB954, #191414) !important; color: white !important; }
+        .klove { background: linear-gradient(135deg, #4CAF50, #2196F3) !important; color: white !important; }
+        .chatgpt { background: linear-gradient(135deg, #10A37F, #1A7F64) !important; color: white !important; }
+        .notion { background: linear-gradient(135deg, #000000, #37352F) !important; color: white !important; }
+        .github { background: linear-gradient(135deg, #24292e, #586069) !important; color: white !important; }
+        .canva { background: linear-gradient(135deg, #00C4CC, #7B68EE) !important; color: white !important; }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 2px solid #009639;
+        }
+
+        .card h2 {
+            color: #000000;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-icon {
+            margin-right: 8px;
+            font-size: 1.4rem;
+            color: #009639;
+        }
+
+        /* Input Styles */
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000000;
+            font-size: 14px;
+        }
+
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 12px 35px 12px 12px;
+            border: 2px solid #009639;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .voice-input-btn {
+            position: absolute;
+            right: 8px;
+            top: 60%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #009639, #FFD320);
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #009639, #000000);
+            color: #FFD320;
+            border: 2px solid #FFD320;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 2px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #FFD320, #009639);
+            color: #000000;
+            border-color: #000000;
+        }
+
+        /* Quotes Section */
+        .quotes-container {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 150, 57, 0.8) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid #FFD320;
+        }
+
+        .quotes-container h2 {
+            color: #FFD320;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .quote-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #FFD320;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-family: Georgia, serif;
+        }
+
+        .quote-author {
+            width: 100%;
+            padding: 6px;
+            border: 2px solid #009639;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .quotes-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quote-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #FFD320;
+            border-radius: 8px;
+            padding: 12px;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .quote-text {
+            font-family: Georgia, serif;
+            font-style: italic;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+
+        .quote-author-display {
+            text-align: right;
+            font-weight: bold;
+            color: #009639;
+            font-size: 11px;
+        }
+
+        /* Sticky Notes */
+        .sticky-notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .sticky-note {
+            background: linear-gradient(135deg, #FFD320 0%, #FFF8DC 100%);
+            border: 2px solid #009639;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 100px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .sticky-note textarea {
+            width: 100%;
+            height: 70px;
+            border: none;
+            background: transparent;
+            resize: none;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 12px;
+            color: #000000;
+        }
+
+        .delete-note, .delete-quote {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background: #FF4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        /* List Items */
+        .list-item {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #009639;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .list-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        /* Calendar */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 15px;
+        }
+
+        .calendar-day {
+            background: linear-gradient(135deg, #FFD320, #009639);
+            color: #000000;
+            text-align: center;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 11px;
+            min-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .calendar-day.has-event {
+            background: linear-gradient(135deg, #000000, #009639);
+            color: #FFD320;
+        }
+
+        /* Inspirational Pop-ups */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, #FFD320 0%, #009639 100%);
+            border: 4px solid #000000;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            max-width: 350px;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: popupAppear 0.5s ease-out;
+        }
+
+        @keyframes popupAppear {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-content h3 {
+            color: #000000;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .popup-content p {
+            color: #000000;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .close-popup {
+            background: linear-gradient(135deg, #000000, #009639);
+            color: #FFD320;
+            border: 2px solid #000000;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Floating Motivation Button */
+        .motivation-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD320, #FF6B6B);
+            color: #000000;
+            border: 3px solid #000000;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Voice Commands Help */
+        .voice-help {
+            background: rgba(0, 0, 0, 0.8);
+            color: #FFD320;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #FFD320;
+        }
+
+        .voice-help h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .voice-examples {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tool-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="voice-status" id="voiceStatus">🎤 Listening for your command...</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🍃 Ultimate Food Content Creator Hub 🇯🇲</h1>
+            <p>Your complete voice-controlled life organization platform</p>
+        </div>
+
+        <!-- Voice Commands Help -->
+        <div class="voice-help">
+            <h3>🎤 Voice Commands</h3>
+            <div class="voice-examples">
+                <strong>Say:</strong> "Add video idea: creamy pasta close-ups" • "Add recipe: Jamaican jerk chicken" • "Add task: edit yesterday's video" • "Add quote: cook with love" • "Add note: use golden hour lighting"
+            </div>
+        </div>
+
+        <!-- Daily Inspiration -->
+        <div class="inspiration-section">
+            <h2><span class="section-icon">✨</span>Daily Inspiration & Motivation</h2>
+            
+            <div class="zodiac-selector">
+                <select id="zodiacSign" onchange="updateHoroscope()">
+                    <option value="aries">♈ Aries</option>
+                    <option value="taurus">♉ Taurus</option>
+                    <option value="gemini">♊ Gemini</option>
+                    <option value="cancer">♋ Cancer</option>
+                    <option value="leo">♌ Leo</option>
+                    <option value="virgo">♍ Virgo</option>
+                    <option value="libra">♎ Libra</option>
+                    <option value="scorpio">♏ Scorpio</option>
+                    <option value="sagittarius">♐ Sagittarius</option>
+                    <option value="capricorn">♑ Capricorn</option>
+                    <option value="aquarius">♒ Aquarius</option>
+                    <option value="pisces">♓ Pisces</option>
+                </select>
+            </div>
+            
+            <div class="daily-horoscope" id="dailyHoroscope">
+                🔮 Your creative energy is flowing strong today! Perfect time for filming food content.
+            </div>
+            
+            <div class="inspiration-quote" id="inspirationQuote">
+                💫 "Food is the thread that weaves stories, and your camera captures the magic."
+            </div>
+            
+            <button class="refresh-inspiration" onclick="refreshInspiration()">
+                🔄 Get New Inspiration
+            </button>
+        </div>
+
+        <!-- Social Media & Content Platforms -->
+        <div class="section">
+            <h2><span class="section-icon">📱</span>Social Media Platforms</h2>
+            <div class="tool-grid">
+                <a href="https://instagram.com" class="tool-btn instagram" target="_blank">
+                    <span class="icon">📸</span>
+                    Instagram
+                </a>
+                <a href="https://tiktok.com" class="tool-btn tiktok" target="_blank">
+                    <span class="icon">🎵</span>
+                    TikTok
+                </a>
+                <a href="https://facebook.com" class="tool-btn facebook" target="_blank">
+                    <span class="icon">👥</span>
+                    Facebook
+                </a>
+                <a href="https://youtube.com" class="tool-btn" target="_blank">
+                    <span class="icon">📺</span>
+                    YouTube
+                </a>
+                <a href="https://pinterest.com" class="tool-btn" target="_blank">
+                    <span class="icon">📌</span>
+                    Pinterest
+                </a>
+                <a href="https://twitter.com" class="tool-btn" target="_blank">
+                    <span class="icon">🐦</span>
+                    Twitter
+                </a>
+            </div>
+        </div>
+
+        <!-- Music & Audio -->
+        <div class="section">
+            <h2><span class="section-icon">🎵</span>Music & Audio</h2>
+            <div class="tool-grid">
+                <a href="https://open.spotify.com" class="tool-btn spotify" target="_blank">
+                    <span class="icon">🎧</span>
+                    Spotify
+                </a>
+                <a href="https://klove.com/listen" class="tool-btn klove" target="_blank">
+                    <span class="icon">📻</span>
+                    K-Love Radio
+                </a>
+                <a href="https://www.youtube.com/audiolibrary" class="tool-btn" target="_blank">
+                    <span class="icon">🎼</span>
+                    YouTube Audio
+                </a>
+                <a href="https://incompetech.com" class="tool-btn" target="_blank">
+                    <span class="icon">🎹</span>
+                    Free Music
+                </a>
+            </div>
+        </div>
+
+        <!-- AI & Productivity Tools -->
+        <div class="section">
+            <h2><span class="section-icon">🤖</span>AI & Productivity</h2>
+            <div class="tool-grid">
+                <a href="https://chat.openai.com" class="tool-btn chatgpt" target="_blank">
+                    <span class="icon">🤖</span>
+                    ChatGPT
+                </a>
+                <a href="https://notion.so" class="tool-btn notion" target="_blank">
+                    <span class="icon">📝</span>
+                    Notion
+                </a>
+                <a href="https://grammarly.com" class="tool-btn" target="_blank">
+                    <span class="icon">✍️</span>
+                    Grammarly
+                </a>
+                <a href="https://analytics.google.com" class="tool-btn" target="_blank">
+                    <span class="icon">📊</span>
+                    Analytics
+                </a>
+            </div>
+        </div>
+
+        <!-- Free Creative Tools -->
+        <div class="section">
+            <h2><span class="section-icon">🎨</span>Free Creative Tools</h2>
+            <div class="tool-grid">
+                <a href="https://canva.com" class="tool-btn canva" target="_blank">
+                    <span class="icon">🎨</span>
+                    Canva
+                </a>
+                <a href="https://github.com" class="tool-btn github" target="_blank">
+                    <span class="icon">💻</span>
+                    GitHub
+                </a>
+                <a href="https://unsplash.com" class="tool-btn" target="_blank">
+                    <span class="icon">📷</span>
+                    Unsplash
+                </a>
+                <a href="https://www.capcut.com" class="tool-btn" target="_blank">
+                    <span class="icon">🎬</span>
+                    CapCut
+                </a>
+                <a href="https://www.davinciresolve.com" class="tool-btn" target="_blank">
+                    <span class="icon">🎞️</span>
+                    DaVinci
+                </a>
+                <a href="https://gimp.org" class="tool-btn" target="_blank">
+                    <span class="icon">🖼️</span>
+                    GIMP
+                </a>
+            </div>
+        </div>
+
+        <!-- Quotes Section -->
+        <div class="quotes-container">
+            <h2><span class="section-icon">💭</span>Inspirational Quotes</h2>
+            <div>
+                <input type="text" class="quote-input" id="quoteText" placeholder="Enter an inspiring quote...">
+                <input type="text" class="quote-author" id="quoteAuthor" placeholder="Quote author (optional)">
+                <button class="btn btn-secondary" onclick="addQuote()">Add Quote</button>
+                <button class="btn" onclick="startVoiceQuote()">🎤 Voice Quote</button>
+            </div>
+            <div class="quotes-display" id="quotesDisplay"></div>
+        </div>
+
+        <!-- Sticky Notes -->
+        <div class="section">
+            <h2><span class="section-icon">📝</span>Quick Sticky Notes</h2>
+            <button class="btn btn-secondary" onclick="addStickyNote()">+ Add Note</button>
+            <button class="btn" onclick="startVoiceNote()">🎤 Voice Note</button>
+            <div class="sticky-notes-grid" id="stickyNotesGrid"></div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div class="dashboard">
+            <!-- Video Content Planning -->
+            <div class="card">
+                <h2><span class="card-icon">🎥</span>Video Ideas</h2>
+                <div class="input-group">
+                    <label>Video Concept</label>
+                    <input type="text" id="videoTitle" placeholder="Sensual pasta making...">
+                    <button class="voice-input-btn" onclick="startVoiceInput('videoTitle')">🎤</button>
+                </div>
+                <div class="input-group">
+                    <label>Key Shots</label>
+                    <textarea id="videoShots" placeholder="Close-up of steam, slow pour..." rows="2"></textarea>
+                </div>
+                <button class="btn" onclick="addVideoIdea()">Save Video</button>
+                <div id="videoList"></div>
+            </div>
+
+            <!-- Recipe Sections -->
+            <div class="card">
+                <h2><span class="card-icon">👨🍳</span>Content Recipes</h2>
+                <div class="input-group">
+                    <label>Recipe Name</label>
+                    <input type="text" id="contentRecipeName" placeholder="Jamaican Jerk Chicken...">
+                    <button class="voice-input-btn" onclick="startVoiceInput('contentRecipeName')">🎤</button>
+                </div>
+                <div class="input-group">
+                    <label>Ingredients</label>
+                    <textarea id="contentRecipeIngredients" placeholder="List ingredients..." rows="2"></textarea>
+                </div>
+                <button class="btn" onclick="addContentRecipe()">Add Recipe</button>
+                <div id="contentRecipesList"></div>
+            </div>
+
+            <div class="card">
+                <h2><span class="card-icon">🍽️</span>Personal Recipes</h2>
+                <div class="input-group">
+                    <label>Recipe Name</label>
+                    <input type="text" id="personalRecipeName" placeholder="Quick dinner recipe...">
+                    <button class="voice-input-btn" onclick="startVoiceInput('personalRecipeName')">🎤</button>
+                </div>
+                <div class="input-group">
+                    <label>Instructions</label>
+                    <textarea id="personalRecipeSteps" placeholder="Cooking steps..." rows="2"></textarea>
+                </div>
+                <button class="btn" onclick="addPersonalRecipe()">Save Recipe</button>
+                <div id="personalRecipesList"></div>
+            </div>
+
+            <!-- Soon to Film -->
+            <div class="card">
+                <h2><span class="card-icon">⏰</span>Soon to Film</h2>
+                <div class="input-group">
+                    <label>Recipe to Film</label>
+                    <input type="text" id="soonToFilm" placeholder="Next video recipe...">
+                    <button class="voice-input-btn" onclick="startVoiceInput('soonToFilm')">🎤</button>
+                </div>
+                <div class="input-group">
+                    <label>Filming Date</label>
+                    <input type="date" id="filmingDate">
+                </div>
+                <button class="btn" onclick="addSoonToFilm()">Schedule</button>
+                <div id="soonToFilmList"></div>
+            </div>
+
+            <!-- Shopping List -->
+            <div class="card">
+                <h2><span class="card-icon">🛒</span>Shopping List</h2>
+                <div class="input-group">
+                    <label>Shopping Item</label>
+                    <input type="text" id="shoppingItem" placeholder="Ingredients needed...">
+                    <button class="voice-input-btn" onclick="startVoiceInput('shoppingItem')">🎤</button>
+                </div>
+                <button class="btn" onclick="addShoppingItem()">Add Item</button>
+                <div id="shoppingList"></div>
+            </div>
+
+            <!-- Tasks & To-Do -->
+            <div class="card">
+                <h2><span class="card-icon">✅</span>Tasks & To-Do</h2>
+                <div class="input-group">
+                    <label>Task Description</label>
+                    <input type="text" id="taskItem" placeholder="Edit video, upload to Instagram...">
+                    <button class="voice-input-btn" onclick="startVoiceInput('taskItem')">🎤</button>
+                </div>
+                <div class="input-group">
+                    <label>Priority</label>
+                    <select id="taskPriority">
+                        <option value="low">🟢 Low</option>
+                        <option value="medium" selected>🟡 Medium</option>
+                        <option value="high">🔴 High</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="addTask()">Add Task</button>
+                <div id="tasksList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup for motivational messages -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <h3 id="popupTitle">🌟 Keep Going!</h3>
+            <p id="popupMessage">You're creating amazing content! Your passion shows in every frame.</p>
+            <button class="close-popup" onclick="closePopup()">✨ Thanks!</button>
+        </div>
+    </div>
+
+    <!-- Floating motivation button -->
+    <button class="motivation-float" onclick="showMotivation()" title="Get Motivated!">💪</button>
+
+    <script>
+        // Data storage arrays
+        let videoIdeas = [];
+        let contentRecipes = [];
+        let personalRecipes = [];
+        let soonToFilmList = [];
+        let shoppingItems = [];
+        let tasks = [];
+        let quotes = [];
+        let stickyNotes = [];
+
+        // Voice recognition setup
+        let recognition = null;
+        let currentVoiceTarget = null;
+
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                document.getElementById('voiceStatus').classList.add('listening');
+            };
+
+            recognition.onend = function() {
+                document.getElementById('voiceStatus').classList.remove('listening');
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                handleVoiceCommand(transcript);
+            };
+
+            recognition.onerror = function(event) {
+                console.log('Voice recognition error:', event.error);
+                document.getElementById('voiceStatus').classList.remove('listening');
+            };
+        }
+
+        // Voice command handler
+        function handleVoiceCommand(transcript) {
+            const command = transcript.toLowerCase();
+            
+            if (command.includes('add video idea') || command.includes('video idea')) {
+                const idea = transcript.replace(/add video idea:?/i, '').trim();
+                if (idea) {
+                    document.getElementById('videoTitle').value = idea;
+                    addVideoIdea();
+                }
+            } else if (command.includes('add recipe') || command.includes('recipe')) {
+                const recipe = transcript.replace(/add recipe:?/i, '').trim();
+                if (recipe) {
+                    document.getElementById('contentRecipeName').value = recipe;
+                    addContentRecipe();
+                }
+            } else if (command.includes('add task') || command.includes('task')) {
+                const task = transcript.replace(/add task:?/i, '').trim();
+                if (task) {
+                    document.getElementById('taskItem').value = task;
+                    addTask();
+                }
+            } else if (command.includes('add quote') || command.includes('quote')) {
+                const quote = transcript.replace(/add quote:?/i, '').trim();
+                if (quote) {
+                    document.getElementById('quoteText').value = quote;
+                    addQuote();
+                }
+            } else if (command.includes('add note') || command.includes('note')) {
+                const note = transcript.replace(/add note:?/i, '').trim();
+                if (note) {
+                    addStickyNote(note);
+                }
+            } else if (currentVoiceTarget) {
+                document.getElementById(currentVoiceTarget).value = transcript;
+                currentVoiceTarget = null;
+            }
+        }
+
+        // Voice input functions
+        function startVoiceInput(targetId) {
+            if (recognition) {
+                currentVoiceTarget = targetId;
+                recognition.start();
+            } else {
+                alert('Voice recognition not supported in this browser. Try Chrome or Edge.');
+            }
+        }
+
+        function startVoiceQuote() {
+            if (recognition) {
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('quoteText').value = transcript;
+                    document.getElementById('voiceStatus').classList.remove('listening');
+                };
+                recognition.start();
+            }
+        }
+
+        function startVoiceNote() {
+            if (recognition) {
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    addStickyNote(transcript);
+                    document.getElementById('voiceStatus').classList.remove('listening');
+                };
+                recognition.start();
+            }
+        }
+
+        // Horoscope data
+        const horoscopes = {
+            aries: [
+                "🔥 Your creative fire is burning bright today! Perfect energy for bold content creation.",
+                "⚡ Dynamic forces align to boost your filming confidence. Trust your instincts!",
+                "🌟 Leadership energy flows through you - time to try that challenging recipe on camera."
+            ],
+            taurus: [
+                "🌱 Steady progress leads to beautiful content. Take your time with each shot today.",
+                "🍯 Your natural sensuality shines in food styling. Focus on textures and colors.",
+                "💎 Luxury and comfort themes will resonate strongly with your audience today."
+            ],
+            gemini: [
+                "✨ Your versatility is your superpower! Try multiple content formats today.",
+                "🎭 Communication flows effortlessly - perfect for engaging captions and stories.",
+                "🌈 Experiment with different angles and perspectives in your content."
+            ],
+            cancer: [
+                "🏠 Home-cooked comfort content will deeply connect with viewers today.",
+                "💕 Your nurturing energy creates the most heartwarming food stories.",
+                "🌙 Trust your intuition about which recipes to feature - you're spot on!"
+            ],
+            leo: [
+                "👑 You're the star today! Bold, dramatic content will captivate your audience.",
+                "🎬 Natural performer energy - perfect for on-camera personality content.",
+                "☀️ Golden hour filming will make everything you create absolutely stunning."
+            ],
+            virgo: [
+                "📐 Your attention to detail creates flawless content. Perfection is within reach.",
+                "🌿 Organization and planning pay off beautifully in your content strategy today.",
+                "✨ Clean, minimalist aesthetics will showcase your skills perfectly."
+            ],
+            libra: [
+                "⚖️ Beautiful balance in your content composition comes naturally today.",
+                "🌸 Aesthetic harmony is your gift - trust your eye for visual storytelling.",
+                "💝 Collaborative content with others brings unexpected joy and engagement."
+            ],
+            scorpio: [
+                "🔮 Intense, mysterious content themes will fascinate your audience today.",
+                "💀 Transform simple ingredients into something unexpectedly magical.",
+                "🖤 Dark, moody lighting will create compelling visual narratives."
+            ],
+            sagittarius: [
+                "🏹 Adventure in cooking awaits! Try that international recipe you've been considering.",
+                "🌍 Global food themes and cultural exploration content will thrive today.",
+                "🎯 Your optimistic energy is contagious - share your cooking journey!"
+            ],
+            capricorn: [
+                "⛰️ Professional, polished content builds your brand foundation today.",
+                "🏆 Long-term content strategy planning yields excellent results now.",
+                "💼 Business-minded approach to your content creates lasting success."
+            ],
+            aquarius: [
+                "🌊 Innovative, unique content ideas flow freely - embrace the unusual!",
+                "⚡ Technology and creativity merge perfectly in your content today.",
+                "🔬 Experimental recipes and techniques will surprise and delight viewers."
+            ],
+            pisces: [
+                "🌊 Dreamy, ethereal content aesthetics are your strength today.",
+                "🎨 Artistic presentation and creative plating inspire beautiful content.",
+                "✨ Trust your creative visions - they're more magical than you realize."
+            ]
+        };
+
+        // Inspiration quotes
+        const inspirationalQuotes = [
+            "Food is the thread that weaves stories, and your camera captures the magic.",
+            "Every ingredient has a story, every dish tells a tale, every video touches a heart.",
+            "Cook with love, film with passion, share with purpose.",
+            "Your kitchen is your studio, your ingredients are your palette.",
+            "Behind every great dish is a creator who believed in their vision.",
+            "The secret ingredient is always love, but the magic happens when you share it.",
+            "Food brings people together, your content brings souls together.",
+            "Every recipe is a love letter to those who will taste your creation.",
+            "Your unique voice in the food world matters more than you know.",
+            "Create content that feeds both the body and the soul."
+        ];
+
+        // Update horoscope
+        function updateHoroscope() {
+            const sign = document.getElementById('zodiacSign').value;
+            const horoscopeTexts = horoscopes[sign];
+            const randomHoroscope = horoscopeTexts[Math.floor(Math.random() * horoscopeTexts.length)];
+            document.getElementById('dailyHoroscope').textContent = randomHoroscope;
+        }
+
+        // Refresh inspiration
+        function refreshInspiration() {
+            updateHoroscope();
+            const randomQuote = inspirationalQuotes[Math.floor(Math.random() * inspirationalQuotes.length)];
+            document.getElementById('inspirationQuote').textContent = `💫 "${randomQuote}"`;
+        }
+
+        // Video ideas functions
+        function addVideoIdea() {
+            const title = document.getElementById('videoTitle').value.trim();
+            const shots = document.getElementById('videoShots').value.trim();
+            
+            if (title) {
+                const idea = {
+                    id: Date.now(),
+                    title: title,
+                    shots: shots,
+                    date: new Date().toLocaleDateString()
+                };
+                videoIdeas.push(idea);
+                document.getElementById('videoTitle').value = '';
+                document.getElementById('videoShots').value = '';
+                displayVideoIdeas();
+                showSuccessMessage('Video idea saved! 🎥');
+            }
+        }
+
+        function displayVideoIdeas() {
+            const container = document.getElementById('videoList');
+            container.innerHTML = videoIdeas.map(idea => `
+                <div class="list-item">
+                    <div>
+                        <strong>${idea.title}</strong>
+                        ${idea.shots ? `<br><small>Shots: ${idea.shots}</small>` : ''}
+                        <small><br>Added: ${idea.date}</small>
+                    </div>
+                    <button class="btn" onclick="removeVideoIdea(${idea.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function removeVideoIdea(id) {
+            videoIdeas = videoIdeas.filter(idea => idea.id !== id);
+            displayVideoIdeas();
+        }
+
+        // Content recipes functions
+        function addContentRecipe() {
+            const name = document.getElementById('contentRecipeName').value.trim();
+            const ingredients = document.getElementById('contentRecipeIngredients').value.trim();
+            
+            if (name) {
+                const recipe = {
+                    id: Date.now(),
+                    name: name,
+                    ingredients: ingredients,
+                    date: new Date().toLocaleDateString()
+                };
+                contentRecipes.push(recipe);
+                document.getElementById('contentRecipeName').value = '';
+                document.getElementById('contentRecipeIngredients').value = '';
+                displayContentRecipes();
+                showSuccessMessage('Content recipe saved! 👨🍳');
+            }
+        }
+
+        function displayContentRecipes() {
+            const container = document.getElementById('contentRecipesList');
+            container.innerHTML = contentRecipes.map(recipe => `
+                <div class="list-item">
+                    <div>
+                        <strong>${recipe.name}</strong>
+                        ${recipe.ingredients ? `<br><small>Ingredients: ${recipe.ingredients}</small>` : ''}
+                        <small><br>Added: ${recipe.date}</small>
+                    </div>
+                    <button class="btn" onclick="removeContentRecipe(${recipe.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function removeContentRecipe(id) {
+            contentRecipes = contentRecipes.filter(recipe => recipe.id !== id);
+            displayContentRecipes();
+        }
+
+        // Personal recipes functions
+        function addPersonalRecipe() {
+            const name = document.getElementById('personalRecipeName').value.trim();
+            const steps = document.getElementById('personalRecipeSteps').value.trim();
+            
+            if (name) {
+                const recipe = {
+                    id: Date.now(),
+                    name: name,
+                    steps: steps,
+                    date: new Date().toLocaleDateString()
+                };
+                personalRecipes.push(recipe);
+                document.getElementById('personalRecipeName').value = '';
+                document.getElementById('personalRecipeSteps').value = '';
+                displayPersonalRecipes();
+                showSuccessMessage('Personal recipe saved! 🍽️');
+            }
+        }
+
+        function displayPersonalRecipes() {
+            const container = document.getElementById('personalRecipesList');
+            container.innerHTML = personalRecipes.map(recipe => `
+                <div class="list-item">
+                    <div>
+                        <strong>${recipe.name}</strong>
+                        ${recipe.steps ? `<br><small>Steps: ${recipe.steps}</small>` : ''}
+                        <small><br>Added: ${recipe.date}</small>
+                    </div>
+                    <button class="btn" onclick="removePersonalRecipe(${recipe.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function removePersonalRecipe(id) {
+            personalRecipes = personalRecipes.filter(recipe => recipe.id !== id);
+            displayPersonalRecipes();
+        }
+
+        // Soon to film functions
+        function addSoonToFilm() {
+            const recipe = document.getElementById('soonToFilm').value.trim();
+            const date = document.getElementById('filmingDate').value;
+            
+            if (recipe) {
+                const item = {
+                    id: Date.now(),
+                    recipe: recipe,
+                    date: date,
+                    dateAdded: new Date().toLocaleDateString()
+                };
+                soonToFilmList.push(item);
+                document.getElementById('soonToFilm').value = '';
+                document.getElementById('filmingDate').value = '';
+                displaySoonToFilm();
+                showSuccessMessage('Filming scheduled! ⏰');
+            }
+        }
+
+        function displaySoonToFilm() {
+            const container = document.getElementById('soonToFilmList');
+            container.innerHTML = soonToFilmList.map(item => `
+                <div class="list-item">
+                    <div>
+                        <strong>${item.recipe}</strong>
+                        ${item.date ? `<br><small>📅 Film by: ${item.date}</small>` : ''}
+                        <small><br>Added: ${item.dateAdded}</small>
+                    </div>
+                    <button class="btn" onclick="removeSoonToFilm(${item.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function removeSoonToFilm(id) {
+            soonToFilmList = soonToFilmList.filter(item => item.id !== id);
+            displaySoonToFilm();
+        }
+
+        // Shopping list functions
+        function addShoppingItem() {
+            const item = document.getElementById('shoppingItem').value.trim();
+            
+            if (item) {
+                const shoppingItem = {
+                    id: Date.now(),
+                    item: item,
+                    completed: false,
+                    date: new Date().toLocaleDateString()
+                };
+                shoppingItems.push(shoppingItem);
+                document.getElementById('shoppingItem').value = '';
+                displayShoppingList();
+                showSuccessMessage('Item added to shopping list! 🛒');
+            }
+        }
+
+        function displayShoppingList() {
+            const container = document.getElementById('shoppingList');
+            container.innerHTML = shoppingItems.map(item => `
+                <div class="list-item ${item.completed ? 'completed' : ''}">
+                    <div>
+                        <strong>${item.item}</strong>
+                        <small><br>Added: ${item.date}</small>
+                    </div>
+                    <div>
+                        <button class="btn" onclick="toggleShoppingItem(${item.id})">
+                            ${item.completed ? '↩️' : '✅'}
+                        </button>
+                        <button class="btn" onclick="removeShoppingItem(${item.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleShoppingItem(id) {
+            const item = shoppingItems.find(item => item.id === id);
+            if (item) {
+                item.completed = !item.completed;
+                displayShoppingList();
+            }
+        }
+
+        function removeShoppingItem(id) {
+            shoppingItems = shoppingItems.filter(item => item.id !== id);
+            displayShoppingList();
+        }
+
+        // Tasks functions
+        function addTask() {
+            const task = document.getElementById('taskItem').value.trim();
+            const priority = document.getElementById('taskPriority').value;
+            
+            if (task) {
+                const taskItem = {
+                    id: Date.now(),
+                    task: task,
+                    priority: priority,
+                    completed: false,
+                    date: new Date().toLocaleDateString()
+                };
+                tasks.push(taskItem);
+                document.getElementById('taskItem').value = '';
+                displayTasks();
+                showSuccessMessage('Task added! ✅');
+            }
+        }
+
+        function displayTasks() {
+            const container = document.getElementById('tasksList');
+            const priorityColors = { high: '🔴', medium: '🟡', low: '🟢' };
+            
+            container.innerHTML = tasks.map(task => `
+                <div class="list-item ${task.completed ? 'completed' : ''}">
+                    <div>
+                        <strong>${priorityColors[task.priority]} ${task.task}</strong>
+                        <small><br>Added: ${task.date}</small>
+                    </div>
+                    <div>
+                        <button class="btn" onclick="toggleTask(${task.id})">
+                            ${task.completed ? '↩️' : '✅'}
+                        </button>
+                        <button class="btn" onclick="removeTask(${task.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(task => task.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                displayTasks();
+            }
+        }
+
+        function removeTask(id) {
+            tasks = tasks.filter(task => task.id !== id);
+            displayTasks();
+        }
+
+        // Quotes functions
+        function addQuote() {
+            const text = document.getElementById('quoteText').value.trim();
+            const author = document.getElementById('quoteAuthor').value.trim();
+            
+            if (text) {
+                const quote = {
+                    id: Date.now(),
+                    text: text,
+                    author: author || 'Unknown',
+                    date: new Date().toLocaleDateString()
+                };
+                quotes.push(quote);
+                document.getElementById('quoteText').value = '';
+                document.getElementById('quoteAuthor').value = '';
+                displayQuotes();
+                showSuccessMessage('Quote added! 💭');
+            }
+        }
+
+        function displayQuotes() {
+            const container = document.getElementById('quotesDisplay');
+            container.innerHTML = quotes.map(quote => `
+                <div class="quote-card">
+                    <button class="delete-quote" onclick="removeQuote(${quote.id})">×</button>
+                    <div class="quote-text">"${quote.text}"</div>
+                    <div class="quote-author-display">- ${quote.author}</div>
+                </div>
+            `).join('');
+        }
+
+        fun
